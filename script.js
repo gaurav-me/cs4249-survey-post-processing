@@ -20,8 +20,12 @@ const result = output.map((trials) => {
   return res;
 });
 
-const filteredResult = result.filter(
-  (elem) => !['mousedown', 'keydown', 'clicked'].includes(elem.eventName),
+const filteredResult = result.filter((elem) =>
+  [
+    'clickedChocolateAddToCart',
+    'clickedRedVelvetAddToCart',
+    'clickedCustomAddToCart',
+  ].includes(elem.eventName),
 );
 
 const parsedResult = filteredResult.map((elem) => {
@@ -31,10 +35,8 @@ const parsedResult = filteredResult.map((elem) => {
   const DV1 = (parseInt(DV2) || 0) + (parseInt(DV3) || 0);
 
   return {
-    uid,
-    actionEventName: eventName,
-    logEventName: infoAttrs.eventName,
     ...infoAttrs.info,
+    eventName,
     ...(DV1 && { DV1 }),
     ...(DV2 && { DV2: parseInt(DV2) }),
     ...(DV3 && { DV3: parseInt(DV3) }),
