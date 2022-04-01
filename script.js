@@ -3,7 +3,7 @@ const fs = require('fs');
 
 const START_INDEX = 7036;
 
-const data = fs.readFileSync('./data3-utf8.csv', {
+const data = fs.readFileSync('./data6-utf8.csv', {
   encoding: 'utf8',
   flag: 'r',
 });
@@ -52,7 +52,7 @@ parsedResult.forEach((elem) => {
   delete elem.input;
 });
 
-console.log(parsedResult);
+// console.log(parsedResult);
 
 fs.writeFile('pg16.json', JSON.stringify(parsedResult), function (err) {
   if (err) throw err;
