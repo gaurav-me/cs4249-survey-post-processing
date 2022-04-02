@@ -29,7 +29,7 @@ const filteredResult = result.filter((elem) =>
 );
 
 const parsedResult = filteredResult.map((elem) => {
-  const { uid, eventName } = elem || {};
+  const { eventName } = elem || {};
   const infoAttrs = JSON.parse(elem.info);
   const { DV2, DV3 } = infoAttrs.info || {};
   const DV1 = (parseInt(DV2) || 0) + (parseInt(DV3) || 0);
@@ -43,7 +43,11 @@ const parsedResult = filteredResult.map((elem) => {
   };
 });
 
-parsedResult.forEach((elem) => {
+const filteredOutliers = parsedResult.filter(
+  (elem) => elem.DV3 < 300000 && elem.DV2 < 300000,
+);
+
+filteredOutliers.forEach((elem) => {
   if (typeof elem.iv1_level === 'string' && !elem.iv1_level) {
     elem.iv1_level = 'fixed-sidebar';
   }
@@ -52,9 +56,10 @@ parsedResult.forEach((elem) => {
   delete elem.input;
 });
 
-// console.log(parsedResult);
+// console.log(filteredOutliers);
+// mc
 
-fs.writeFile('pg16.json', JSON.stringify(parsedResult), function (err) {
+fs.writeFile('pg16.json', JSON.stringify(filteredOutliers), function (err) {
   if (err) throw err;
   console.log('complete');
 });
